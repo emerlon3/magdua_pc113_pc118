@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\student;
-use App\Models\employees;
+use App\Models\Student;
+use App\Models\Employee;
 
 class ListController extends Controller
 {
     public function student()
     {
-        return response ()->json(student::all());
+        return response ()->json(Student::all());
  
    }
 
    public function employee()
    {
-       return response ()->json(employee::all());
+       return response ()->json(Employee::all());
    }
 }
