@@ -25,8 +25,7 @@ class ListController extends Controller
         $students = Student::where('first_name', 'LIKE', "%{$query}%")
                             ->orWhere('last_name', 'LIKE', "%{$query}%")
                             ->orWhere('email', 'LIKE', "%{$query}%")
-                            ->orWhere('position', 'LIKE', "%{$query}%")
-                            ->orWhere('salary', 'LIKE', "%{$query}%")
+                            ->orWhere('password', 'LIKE', "%{$query}%")
                             ->get();
         return response()->json($students);
 
@@ -69,8 +68,8 @@ class ListController extends Controller
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'email' => 'required',
-                'position' => 'required',
-                'salary' => 'required',
+                'course' => 'required',
+                
             ]);
             $student = Student::create($validatedData);
                 return response()->json([

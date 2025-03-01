@@ -20,8 +20,8 @@ class StudentFactory extends Factory
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'email' => $this->faker->unique()->safeEmail(),
-            'position' => $this->faker->jobTitle(),
-            'salary' => $this->faker->numberBetween(30000, 120000),
+            'course' => $this->faker->course(),
+            
           
         
         ];
