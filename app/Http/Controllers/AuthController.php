@@ -27,7 +27,22 @@ class AuthController extends Controller
         'message' => 'User registration succes',
         'user' => $user
     ]);
-
+  
+    }
+    public function login(Request $request){
+        $student = student::where('email', $request->email)->first();
+        if($student){
+     $token = $student->createToken('auth_token')->plainTextToken;
+            return response()->json([
+                'message' => 'Login successful',
+     'token' => $token,
+                'student' => $student
+            ]);
+        }else{
+            return response()->json([
+                'message' => 'Login failed'
+            ]);
+        }
     }
 
 }

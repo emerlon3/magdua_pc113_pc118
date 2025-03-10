@@ -150,18 +150,6 @@ return response()->json([
 ]);
  
 }
-public function login(Request $request){
-    $student = student::where('email', $request->email)->first();
-    if($student){
-        return response()->json([
-            'message' => 'Login successful',
-            'student' => $student
-        ]);
-    }else{
-        return response()->json([
-            'message' => 'Login failed'
-        ]);
-    }
-}
+
     
 }
