@@ -25,7 +25,8 @@ class ListController extends Controller
         $students = Student::where('first_name', 'LIKE', "%{$query}%")
                             ->orWhere('last_name', 'LIKE', "%{$query}%")
                             ->orWhere('email', 'LIKE', "%{$query}%")
-                            ->orWhere('password', 'LIKE', "%{$query}%")
+                            ->orWhere('course', 'LIKE', "%{$query}%")
+                          
                             ->get();
         return response()->json($students);
 
@@ -37,7 +38,7 @@ class ListController extends Controller
 
 
     $query = $request->input('query');
-    $emplooyes = Emplooye::where('first_name', 'LIKE', "%{$query}%")
+    $emplooyes = Employee::where('first_name', 'LIKE', "%{$query}%")
                         ->orWhere('last_name', 'LIKE', "%{$query}%")
                         ->orWhere('email', 'LIKE', "%{$query}%")
                         ->orWhere('position', 'LIKE', "%{$query}%")
@@ -69,7 +70,7 @@ class ListController extends Controller
                 'last_name' => 'required',
                 'email' => 'required',
                 'course' => 'required',
-                
+              
             ]);
             $student = Student::create($validatedData);
                 return response()->json([
@@ -86,7 +87,7 @@ class ListController extends Controller
             }
 
             $validatedData = $request->validate([
-                'first_name' => 'string', 'last_name' => 'string', 'email' => 'string', 'positon' => 'string',  'salary' => 'string']);
+                'first_name' => 'string', 'last_name' => 'string', 'email' =>'string', 'positon' => 'string',  'salary' => 'string']);
             $employee->update($validatedData);
             return response()->json([
               'message' => 'Employee updated successfully', 
@@ -104,7 +105,7 @@ class ListController extends Controller
                 }
     
                 $validatedData = $request->validate([
-                    'first_name' => 'string', 'last_name' => 'string', 'email' => 'string', 'positon' => 'string',  'salary' => 'string']);
+                    'first_name' => 'string', 'last_name' => 'string', 'email' => 'string', 'course' => 'string' ]);
                 $student->update($validatedData);
                 return response()->json([
                   'message' => 'Student updated successfully', 
@@ -144,11 +145,23 @@ return response()->json(['message' => 'student not found'], 404);
 $student->delete();
 return response()->json([
    
-'message' => 'Student deleted successfully',
+'message' => 'Employee deleted successfully',
    
 ]);
  
 }
-
+public function login(Request $request){
+    $student = student::where('email', $request->email)->first();
+    if($student){
+        return response()->json([
+            'message' => 'Login successful',
+            'student' => $student
+        ]);
+    }else{
+        return response()->json([
+            'message' => 'Login failed'
+        ]);
+    }
+}
     
 }

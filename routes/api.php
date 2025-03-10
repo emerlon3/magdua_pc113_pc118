@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ListController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +30,5 @@ Route::put('/employee/update/{id}',[ListController::class,'update']);
 Route::put('/student/update/{id}',[ListController::class,'update_stud']);
 Route::delete('/employee/delete/{id}',[ListController::class,'delete']);
 Route::delete('/student/delete/{id}',[ListController::class,'delete_stud']);
-
+Route::post('/student/login/', [ListController::class, 'login']);
+Route::post('/registration', [AuthController::class, 'create']);
