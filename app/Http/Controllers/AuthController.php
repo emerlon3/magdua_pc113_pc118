@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
+use Illuminate\Support\Facades\Hash;
+
 
 class AuthController extends Controller
 {
@@ -13,6 +15,7 @@ class AuthController extends Controller
         'last_name' => 'required|max:255',
         'email' => 'required|string|email|max:255|unique:students',
         'course' => 'required|max:255',
+
     
   ]);
     $user = Student::create([
@@ -20,6 +23,7 @@ class AuthController extends Controller
         'last_name' =>$validate['last_name'],
         'email' =>$validate['email'],
         'course' =>$validate['course'],
+       
        
 
     ]);

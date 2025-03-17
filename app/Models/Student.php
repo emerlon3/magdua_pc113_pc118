@@ -14,6 +14,7 @@ class Student extends Model
         'last_name',
         'email',
         'course',
+      
         
     ];
 }
