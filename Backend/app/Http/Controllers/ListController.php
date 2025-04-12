@@ -19,9 +19,11 @@ class ListController extends Controller
        return response ()->json(Employee::all());
    }
 
+
+
    public function search(Request $request)
     {
-        $query = $request->input('query');
+        $query = $request->input('search');
         $students = Student::where('first_name', 'LIKE', "%{$query}%")
                             ->orWhere('last_name', 'LIKE', "%{$query}%")
                             ->orWhere('email', 'LIKE', "%{$query}%")
@@ -81,7 +83,7 @@ class ListController extends Controller
 
     public function update (Request $request, $id)
     {
-        $employee = employee::find($id);
+        $employee = Employee::find($id);
             if (is_null($employee)) {
                 return response()->json(['message' => 'Employee not found'], 404);
             }
@@ -99,7 +101,7 @@ class ListController extends Controller
 
         public function update_stud (Request $request, $id)
         {
-            $student = student::find($id);
+            $student = Student::find($id);
                 if (is_null($student)) {
                     return response()->json(['message' => 'Student not found'], 404);
                 }
@@ -145,7 +147,7 @@ return response()->json(['message' => 'student not found'], 404);
 $student->delete();
 return response()->json([
    
-'message' => 'Employee deleted successfully',
+'message' => 'Student deleted successfully',
    
 ]);
  

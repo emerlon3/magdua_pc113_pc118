@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use Exception;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
@@ -33,7 +35,7 @@ class UserController extends Controller
             'last_name' => $validate['last_name'],
             'email' => $validate['email'],
             'course' => $validate['course'],
-            'password' => bcrypt($validate['password']), // Encrypt password
+            'password' => bcrypt($validate['password']),
             'role' => $validate['role'],
         ]);
 
@@ -44,27 +46,23 @@ class UserController extends Controller
     } catch (ValidationException $e) {
         return response()->json(['error' => $e->errors()], 422);
     } catch (Exception $e) {
-        return response()->json(['error' => 'Something went wrong'], 500);
+        return response()->json(['error' => 'email already taken'], 500);
     }
 }
 
-public function login(Request $request){
-    try {
-        $student = User::where('email', $request->email)->first();
-        
-        if ($student && Hash::check($request->password, $student->password)) {
-            $token = $student->createToken('auth_token')->plainTextToken;
-            
-            return response()->json([
-                'message' => 'Login successful',
-                'token' => $token,
-                'student' => $student
-            ], 200);
-        }
-        
-        return response()->json(['message' => 'Login failed'], 401);
-    } catch (Exception $e) {
-        return response()->json(['error' => 'Something went wrong'], 500);
+public function login(Request $request)
+{
+    $credentials = $request->only('email', 'password');
+
+    if (Auth::attempt($credentials)) {
+        $user = Auth::user();
+        $token = $user->createToken('authToken')->plainTextToken;
+        return response()->json([
+            'message' => 'Login successful!',
+            'token' => $token,
+        ]);
+    } else {
+        return response()->json(['message' => 'Invalid credentials'], 401);
     }
 }
 
@@ -100,4 +98,22 @@ public function login(Request $request){
                   
               ]);
               }
+
+        public function index(Request $request)
+        {
+            $users = User::all();
+
+            return response()->json($users);
+        }
+
+
+public function logout(Request $request)
+{
+    // Log the user out by invalidating the token
+    Auth::logout(); // This is used for traditional authentication
+    // If using JWT, you would revoke the token like this:
+    // $request->user()->token()->revoke();
+
+    return response()->json(['message' => 'Logout successful.'], 200);
+}
 }
